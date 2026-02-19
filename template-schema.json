@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Template name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Template description"
+    },
+    "version": {
+      "type": "string",
+      "description": "Template version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "author": {
+      "type": "string",
+      "description": "Template author"
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Required dependencies",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "variables": {
+      "type": "array",
+      "description": "Required variables",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "default": { "type": "string" }
+        }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "description": "File structure"
+    }
+  },
+  "required": ["name", "description", "version"]
+}

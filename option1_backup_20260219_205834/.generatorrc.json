@@ -1,0 +1,17 @@
+{
+  "templates": {
+    "fullstack": {
+      "description": "Full-stack JavaScript application",
+      "dependencies": ["express", "react"]
+    },
+    "mobile": {
+      "description": "React Native mobile application",
+      "dependencies": ["react-native", "@react-navigation/native"]
+    }
+  },
+  "defaultTemplate": "fullstack",
+  "git": {
+    "initialBranch": "main",
+    "autoCommit": true
+  }
+}
