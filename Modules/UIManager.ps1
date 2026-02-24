@@ -8,21 +8,25 @@ function Show-MainMenu {
     
     Clear-Host
     Write-Host ("=" * 60) -ForegroundColor Cyan
-    Write-Host "PROJECT GENERATOR TOOL v1.0.0" -ForegroundColor White -BackgroundColor Blue
+    Write-Host "PROJECT GENERATOR TOOL v1.2.0" -ForegroundColor White -BackgroundColor Blue
     Write-Host ("=" * 60) -ForegroundColor Cyan
-    Write-Host "Project: $($Config.RepoName)" -ForegroundColor Green
-    if ($Config.Destination) {
-        Write-Host "Destination: $($Config.Destination)" -ForegroundColor Yellow
+    Write-Host "Project Name: $($Config.RepoName)" -ForegroundColor Green
+    if ($Config.RootPath -and (Test-Path $Config.RootPath)) {
+        Write-Host "Current Project: $($Config.RootPath)" -ForegroundColor Cyan
+    } else {
+        Write-Host "Current Project: (none selected)" -ForegroundColor Gray
     }
     Write-Host ("=" * 60) -ForegroundColor Cyan
     Write-Host "1. Create structure only" -ForegroundColor Yellow
     Write-Host "2. Create with PUBLIC GitHub repo" -ForegroundColor Yellow
     Write-Host "3. Create with PRIVATE GitHub repo" -ForegroundColor Yellow
     Write-Host "4. Change project name" -ForegroundColor Yellow
-    Write-Host "5. Install dependencies (coming soon)" -ForegroundColor Yellow
-    Write-Host "6. Configure settings (coming soon)" -ForegroundColor Yellow
-    Write-Host "7. Template Management" -ForegroundColor Magenta
-    Write-Host "8. Exit" -ForegroundColor Red
+    Write-Host "5. Select existing project" -ForegroundColor Cyan
+    Write-Host "6. 📊 Project Dashboard" -ForegroundColor Magenta
+    Write-Host "7. 🚀 Tool Dashboard" -ForegroundColor Green
+    Write-Host "8. Install dependencies" -ForegroundColor Green
+    Write-Host "9. Template Management" -ForegroundColor Magenta
+    Write-Host "0. Exit" -ForegroundColor Red
     Write-Host ("=" * 60) -ForegroundColor Cyan
     
     $choice = Read-Host "Select option"

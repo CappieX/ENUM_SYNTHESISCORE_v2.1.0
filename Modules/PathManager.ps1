@@ -14,7 +14,41 @@ function Get-LastPathFile {
     
     return Join-Path $ScriptDir ".lastpath.txt"
 }
-
+function Show-FolderBrowser {
+    <#
+    .SYNOPSIS
+        Opens a folder browser dialog and returns selected path
+    .PARAMETER Description
+        Description text for the browser dialog
+    .PARAMETER InitialPath
+        Initial directory to open
+    #>
+    param(
+        [string]$Description = "Select a folder",
+        [string]$InitialPath = ""
+    )
+    
+    try {
+        Add-Type -AssemblyName System.Windows.Forms -ErrorAction Stop
+        
+        $folderBrowser = New-Object System.Windows.Forms.FolderBrowserDialog
+        $folderBrowser.Description = $Description
+        $folderBrowser.ShowNewFolderButton = $false
+        $folderBrowser.RootFolder = [System.Environment+SpecialFolder]::MyComputer
+        
+        if ($InitialPath -and (Test-Path $InitialPath)) {
+            $folderBrowser.SelectedPath = $InitialPath
+        }
+        
+        if ($folderBrowser.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+            return $folderBrowser.SelectedPath
+        }
+    } catch {
+        Write-Host "⚠ Folder browser error: $_" -ForegroundColor Yellow
+    }
+    
+    return $null
+}
 function Save-LastPath {
     param(
         [string]$Path,

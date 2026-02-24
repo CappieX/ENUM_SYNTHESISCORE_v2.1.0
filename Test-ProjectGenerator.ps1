@@ -29,8 +29,10 @@ $modules = @(
     @{Name="GitHubManager.ps1"; Description="GitHub integration"},
     @{Name="UIManager.ps1"; Description="User interface"},
     @{Name="ProjectConfig.ps1"; Description="Configuration management"},
-    @{Name="TemplateManager.ps1"; Description="Template management"}
-)
+    @{Name="TemplateManager.ps1"; Description="Template management"},
+    @{Name="DependencyManager.ps1"; Description="Dependency management"},
+	
+)	
 
 $success = 0
 $failed = 0
