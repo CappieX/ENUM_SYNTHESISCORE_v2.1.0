@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Advanced logging module for the Project Generator Tool
+    Advanced logging module for the Enum PROJECT SYNTHESIS ENGINE
 .DESCRIPTION
     Provides standardized logging to console and file (generator.log)
 #>

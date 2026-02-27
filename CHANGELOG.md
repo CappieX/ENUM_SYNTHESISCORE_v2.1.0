@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-02-25
+
+### Rebranding
+- **Official Identity**: Rebranded the project from "Project Generator" to **Enum PROJECT SYNTHESIS ENGINE**.
+- **Global Synthesis UI**: Updated all UI components, metadata, and documentation to reflect the new synthesis engine identity.
+- **New Logo Integration**: Integrated the new Enum Technology logo with existing high-fidelity animations and glow effects.
+
 ## [2.0.0-Forge] - 2026-02-24
 
 ### Revolutionary UI Redesign (Forge UI)
