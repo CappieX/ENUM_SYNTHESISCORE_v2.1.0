@@ -1,0 +1,39 @@
+name: Enum Synthesis CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-powershell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Invoke-ScriptAnalyzer -Path backend/ -Recurse | Where-Object { $_.Severity -eq "Error" -or $_.Severity -eq "Warning" } | ForEach-Object {
+            Write-Error "PSScriptAnalyzer violation: $($_.Message) at $($_.ScriptPath):$($_.Line)"
+          }
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build

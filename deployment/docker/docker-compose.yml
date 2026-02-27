@@ -1,0 +1,16 @@
+services:
+  synthesis-engine:
+    build:
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5173/api
+      - VITE_GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - VITE_GITHUB_REDIRECT_URI=${GITHUB_REDIRECT_URI}
+      - PROJECTS_ROOT=/app/projects
+    volumes:
+      - ./projects:/app/projects
+      - ../../backend/logs/generator.log:/app/backend/logs/generator.log
+    restart: unless-stopped

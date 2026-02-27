@@ -1,64 +1,66 @@
-#  Enum PROJECT SYNTHESIS ENGINE
+# 🚀 Enum PROJECT SYNTHESIS ENGINE
 
 A powerful, high-fidelity project generation platform that synthesizes complete project structures and automates cloud/repository orchestration.
 
-## ✨ Features
+## 📂 Project Structure
 
--  **Automated Structure Synthesis** - Creates complex project structures with proper content
-- **Modular Architecture** - Clean separation of concerns with specialized modules
--  **Advanced Customization** - Full control over project parameters and settings
-- **GitHub Integration** - Create public or private repositories automatically
-- **Path Memory** - Remembers your last used synthesis matrix
-- **Synthesis UI** - A revolutionary, modern web-based interface with glass-morphism and 3D visualization
-- **Backup Protection** - Automatically backs up existing folders with timestamps
-- **Smart File Generation** - Creates package.json, README, .gitignore, LICENSE and more
--  **Dry Run Mode** - Preview changes before they are applied with the `-DryRun` switch
-- **Detailed Logging** - All operations are logged to `generator.log` for troubleshooting
-- **External Templates** - Easily add new templates by dropping JSON files into the `Templates/` folder
-- 🧪 **Unit Testing** - Robust testing framework using Pester
+The project is organized into modular directories to separate concerns and enable scalability:
 
-##  Synthesis UI
+```text
+enum-project-synthesis-engine/
+├── frontend/               # React + Vite Synthesis UI
+├── backend/                # PowerShell Synthesis Core
+│   ├── modules/            # Reusable PS modules
+│   ├── scripts/            # Entry point scripts
+│   ├── Templates/          # Project blueprint JSONs
+│   ├── tests/              # Pester unit tests
+│   └── logs/               # Operational telemetry
+├── deployment/             # Infrastructure & CI/CD
+│   ├── docker/             # Containerization
+│   ├── nginx/              # Web server config
+│   └── scripts/            # Deploy/Verify automation
+├── docs/                   # Centralized documentation
+├── future-modules/         # Roadmap placeholders
+└── archive/                # Legacy/Backup artifacts
+```
 
-The **Enum PROJECT SYNTHESIS ENGINE** transforms project generation into a high-fidelity creative studio.
+## ✨ Key Features
 
-### How to run the UI:
-1. Navigate to the `Forge-UI` directory (rebranded as Synthesis UI):
+- **Automated Synthesis** - Creates complex project structures from blueprints.
+- **Modular Core** - Clean separation of concerns with specialized backend modules.
+- **Synthesis UI** - Modern glass-morphism interface with 3D visualization.
+- **GitHub Integration** - Automated repository and CI/CD orchestration.
+- **Dry Run Mode** - Preview structural changes before execution.
+
+## 🖥️ Synthesis UI
+
+The UI transforms project configuration into a creative experience.
+
+### Run the UI:
+1. Navigate to the `frontend` directory:
    ```bash
-   cd Forge-UI
+   cd frontend
    ```
-2. Install dependencies:
+2. Install & Start:
    ```bash
-   npm install
+   npm install && npm run dev
    ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-4. Open your browser to the provided local URL (usually `http://localhost:5173`).
 
-## Prerequisites
+## 📋 Prerequisites
 
-- **PowerShell 5.1+** (Windows) or PowerShell 7+ (Cross-platform)
-- **Git** (for GitHub integration)
-- **GitHub CLI** (gh) - [Download here](https://cli.github.com/)
+- **PowerShell 7+** (Recommended) or 5.1+
+- **Node.js 20+** (For UI development)
+- **Git & GitHub CLI** (For cloud automation)
 
-## Quick Start
+## 🚀 Quick Start
 
-1. **Clone or download this repository**
-2. **Open PowerShell** in the project folder
-3. **Run the synthesis script:**
+1. **Clone the engine**
+2. **Open PowerShell** in the root folder.
+3. **Execute synthesis:**
    ```powershell
-   .\Create-ProjectGenerator.ps1
+   .\backend\scripts\Create-ProjectGenerator.ps1
    ```
 
-##  Project Structure
+## 📄 License
 
-- `Create-ProjectGenerator.ps1` - Main entry point
-- `Modules/` - Core logic for file creation, git, and UI
-- `Templates/` - JSON definitions for project types
-- `Forge-UI/` - High-fidelity React-based Synthesis Engine Interface
-- `Tests/` - Pester unit tests
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) for details.
