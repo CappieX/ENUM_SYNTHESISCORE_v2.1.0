@@ -1,8 +1,8 @@
-# 🚀 Enum PROJECT SYNTHESIS ENGINE
+#  Enum PROJECT SYNTHESIS ENGINE
 
 A powerful, high-fidelity project generation platform that synthesizes complete project structures and automates cloud/repository orchestration.
 
-## 📂 Project Structure
+## Project Structure
 
 The project is organized into modular directories to separate concerns and enable scalability:
 
@@ -24,7 +24,7 @@ enum-project-synthesis-engine/
 └── archive/                # Legacy/Backup artifacts
 ```
 
-## ✨ Key Features
+## Key Features
 
 - **Automated Synthesis** - Creates complex project structures from blueprints.
 - **Modular Core** - Clean separation of concerns with specialized backend modules.
@@ -46,13 +46,13 @@ The UI transforms project configuration into a creative experience.
    npm install && npm run dev
    ```
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **PowerShell 7+** (Recommended) or 5.1+
 - **Node.js 20+** (For UI development)
 - **Git & GitHub CLI** (For cloud automation)
 
-## 🚀 Quick Start
+## Quick Start
 
 1. **Clone the engine**
 2. **Open PowerShell** in the root folder.
@@ -61,6 +61,6 @@ The UI transforms project configuration into a creative experience.
    .\backend\scripts\Create-ProjectGenerator.ps1
    ```
 
-## 📄 License
+##  License
 
 MIT License - see [LICENSE](LICENSE) for details.
