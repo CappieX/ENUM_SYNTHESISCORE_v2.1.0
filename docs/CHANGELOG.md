@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-02-27
+
+### Added
+- **Firebase Integration**: Established high-fidelity authentication backend using Firebase Auth and Firestore.
+- **Role-Based Access Control (RBAC)**: Implemented three distinct user tiers: `free`, `paid`, and `admin` with protected routes and dynamic UI filtering.
+- **Enhanced Marketing Presence**: Refined the landing page with scrollable sections, features grid, synthesis matrix gallery, and operational workflow visualization.
+- **Identity Portals**: Created dedicated `SignIn` and `SignUp` portals with real-time validation and bespoke teal/ocean styling.
+- **Subscription Engine**: Integrated a mock "Upgrade Protocol" with a Stripe-style secure checkout interface for Pro tier synthesis.
+- **Initialization Protocol**: Added a global synchronization layer to handle auth state persistence and role fetching on system load.
+
+### Improved
+- **Code Sanitization**: Resolved all TypeScript diagnostic warnings and unified duplicate Firebase configurations.
+- **Global Navigation**: Enhanced the sidebar to dynamically filter accessible nodes based on user permissions.
+- **Landing Page Performance**: Optimized asset delivery and motion choreography for the marketing site.
+
 ## [2.1.0] - 2026-02-25
 
 ### Rebranding

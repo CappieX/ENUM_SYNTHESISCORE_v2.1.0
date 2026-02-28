@@ -47,7 +47,7 @@ Unit Testing - Robust testing framework using Pester
 - **GitHub Integration** - Automated repository and CI/CD orchestration.
 - **Dry Run Mode** - Preview structural changes before execution.
 
-## 🖥️ Synthesis UI
+## Synthesis UI
 
 The UI transforms project configuration into a creative experience.
 
