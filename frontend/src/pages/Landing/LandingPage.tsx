@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   Zap, 
@@ -16,7 +16,6 @@ import {
   Database,
   Box,
   Monitor,
-  CheckCircle2,
   MousePointer2,
   Twitter, 
   MessageCircle, 
@@ -24,11 +23,10 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PrimaryAppIcon } from '../../components/Icons';
-import { useSynthesisStore } from '../../store/useSynthesisStore';
+//import { useSynthesisStore } from '../../store/useSynthesisStore';
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
-  const setAuthenticated = useSynthesisStore(state => state.setAuthenticated);
   const [email, setEmail] = useState('');
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], [0, -500]);

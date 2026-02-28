@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CreditCard, ShieldCheck, Zap, X, CheckCircle2, Lock } from 'lucide-react';
+import { CreditCard, Zap, X, CheckCircle2, Lock } from 'lucide-react';
 import Button from '../components/DesignSystem/Button';
 
 interface PricingModalProps {

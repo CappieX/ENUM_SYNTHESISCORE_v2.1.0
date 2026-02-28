@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, ArrowRight, User, Shield, AlertCircle } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Shield, AlertCircle } from 'lucide-react';
 import { PrimaryAppIcon } from '../components/Icons';
 import { authService } from '../services/authService';
 import { useSynthesisStore } from '../store/useSynthesisStore';

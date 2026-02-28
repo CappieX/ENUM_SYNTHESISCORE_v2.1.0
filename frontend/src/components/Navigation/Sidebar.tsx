@@ -8,8 +8,7 @@ import {
   MessageSquareText, 
   Settings, 
   LogOut,
-  ChevronLeft,
-  ChevronRight,
+  //ChevronRight,
   User
 } from 'lucide-react';
 import { PrimaryAppIcon } from '../Icons';
@@ -17,7 +16,7 @@ import { useSynthesisStore } from '../../store/useSynthesisStore';
 import { authService } from '../../services/authService';
 
 const Sidebar: React.FC = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed] = useState(false);
   const { userProfile, setAuthenticated, setUserProfile } = useSynthesisStore();
   const navigate = useNavigate();
 
