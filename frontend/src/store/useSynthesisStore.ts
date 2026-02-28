@@ -7,7 +7,24 @@ interface User {
   html_url: string;
 }
 
+export type UserRole = 'free' | 'paid' | 'admin';
+
+export interface UserProfile {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  role: UserRole;
+}
+
 interface SynthesisState {
+  // Auth
+  isAuthenticated: boolean;
+  userProfile: UserProfile | null;
+  setAuthenticated: (is: boolean) => void;
+  setUserProfile: (profile: UserProfile | null) => void;
+  logout: () => void;
+  
   // Project Config
   projectName: string;
   destinationPath: string;
@@ -38,7 +55,6 @@ interface SynthesisState {
   
   setGithubToken: (token: string | null) => void;
   setUser: (user: User | null) => void;
-  logout: () => void;
   
   setIsGenerating: (is: boolean) => void;
   setIsExplorerOpen: (is: boolean) => void;
@@ -51,6 +67,12 @@ interface SynthesisState {
 export const useSynthesisStore = create<SynthesisState>()(
   persist(
     (set) => ({
+      isAuthenticated: false,
+      userProfile: null,
+      setAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+      setUserProfile: (userProfile) => set({ userProfile }),
+      logout: () => set({ isAuthenticated: false, userProfile: null, githubToken: null, user: null }),
+      
       projectName: 'GENESIS-ALPHA',
       destinationPath: '/root/projects/synthesis',
       selectedTemplate: 'fullstack',
@@ -77,7 +99,6 @@ export const useSynthesisStore = create<SynthesisState>()(
       
       setGithubToken: (githubToken) => set({ githubToken }),
       setUser: (user) => set({ user }),
-      logout: () => set({ githubToken: null, user: null }),
       
       setIsGenerating: (isGenerating) => set({ isGenerating }),
       setIsExplorerOpen: (isExplorerOpen) => set({ isExplorerOpen }),
@@ -99,6 +120,8 @@ export const useSynthesisStore = create<SynthesisState>()(
     {
       name: 'synthesis-engine-storage',
       partialize: (state) => ({ 
+        isAuthenticated: state.isAuthenticated,
+        userProfile: state.userProfile,
         githubToken: state.githubToken, 
         user: state.user,
         projectName: state.projectName,

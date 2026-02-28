@@ -1,147 +1,115 @@
-import React, { Suspense, lazy } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Terminal,
-  History,
-  Layers,
-  Palette
-} from 'lucide-react';
+import React, { lazy, useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import MainLayout from './layouts/MainLayout';
+import LandingPage from './pages/Landing/LandingPage';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import NotFound from './pages/NotFound';
+import { useSynthesisStore } from './store/useSynthesisStore';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import { authService } from './services/authService';
 
-// Custom Components
-import Sidebar from './components/Sidebar.tsx';
-import ActionHub from './components/ActionHub.tsx';
-import Navbar from './components/Navbar.tsx';
-import Button from './components/DesignSystem/Button.tsx';
-import { useSynthesisStore } from './store/useSynthesisStore.ts';
-import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts.ts';
+// Lazy Loaded Pages
+const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
+const Templates = lazy(() => import('./pages/Templates/Templates'));
+const MyProjects = lazy(() => import('./pages/MyProjects/MyProjects'));
+const AIAssistant = lazy(() => import('./pages/AIAssistant/AIAssistant'));
+const Settings = lazy(() => import('./pages/Settings/Settings'));
 
-// Lazy Loaded Components
-const PreviewCanvas = lazy(() => import('./components/PreviewCanvas.tsx'));
-const TemplateExplorer = lazy(() => import('./pages/TemplateExplorer.tsx'));
-const MoodBoard = lazy(() => import('./pages/MoodBoards/MoodBoard.tsx'));
+// Role-Based Route Component
+const ProtectedRoute: React.FC<{ 
+  children: React.ReactNode, 
+  allowedRoles?: ('free' | 'paid' | 'admin')[] 
+}> = ({ children, allowedRoles }) => {
+  const { isAuthenticated, userProfile } = useSynthesisStore();
+  
+  if (!isAuthenticated) return <Navigate to="/signin" replace />;
+  
+  if (allowedRoles && userProfile && !allowedRoles.includes(userProfile.role)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <>{children}</>;
+};
 
 const App: React.FC = () => {
-  const { 
-    selectedTemplate, 
-    isExplorerOpen,
-    setIsExplorerOpen,
-    isMoodBoardOpen,
-    setIsMoodBoardOpen
-  } = useSynthesisStore();
+  const { isAuthenticated, setAuthenticated, setUserProfile } = useSynthesisStore();
+  const [isInitializing, setIsInitializing] = useState(true);
   
-  // Register shortcuts
+  // Initialize global shortcuts
   useKeyboardShortcuts();
 
-  return (
-    <div className="h-screen w-screen flex flex-col bg-background-deep text-text-primary overflow-hidden">
-      {/* Background Effects */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-bright/10 rounded-full blur-[120px] will-change-opacity" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-accent/10 rounded-full blur-[120px] will-change-opacity" />
+  // Initialize Auth State
+  useEffect(() => {
+    const unsubscribe = authService.subscribeToAuthChanges((profile) => {
+      if (profile) {
+        setUserProfile(profile);
+        setAuthenticated(true);
+      } else {
+        setUserProfile(null);
+        setAuthenticated(false);
+      }
+      setIsInitializing(false);
+    });
+
+    return () => unsubscribe();
+  }, [setAuthenticated, setUserProfile]);
+
+  if (isInitializing) {
+    return (
+      <div className="h-screen w-screen bg-background-deep flex flex-col items-center justify-center gap-6">
+        <div className="w-16 h-16 border-4 border-primary-bright/20 border-t-primary-bright rounded-full animate-spin" />
+        <div className="text-[10px] font-black uppercase tracking-[0.5em] text-text-tertiary animate-pulse">
+          Synchronizing_Core_State...
+        </div>
       </div>
+    );
+  }
 
-      {/* Main UI */}
-      <Navbar />
+  return (
+    <BrowserRouter>
+      <AnimatePresence mode="wait">
+        <Routes>
+          {/* Public Routes */}
+          <Route 
+            path="/" 
+            element={!isAuthenticated ? <LandingPage /> : <Navigate to="/dashboard" replace />} 
+          />
+          <Route 
+            path="/signin" 
+            element={!isAuthenticated ? <SignIn /> : <Navigate to="/dashboard" replace />} 
+          />
+          <Route 
+            path="/signup" 
+            element={!isAuthenticated ? <SignUp /> : <Navigate to="/dashboard" replace />} 
+          />
 
-      <main className="flex-1 flex flex-col md:flex-row gap-4 p-4 overflow-hidden relative z-10">
-        {/* Left Panel: Project Configuration */}
-        <motion.section 
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="w-full md:w-1/4 glass-elevated rounded-[2.5rem] overflow-hidden flex flex-col will-change-transform h-[40vh] md:h-full bg-background-surface/30 backdrop-blur-xl border border-glass-border shadow-2xl"
-        >
-          <Sidebar />
-        </motion.section>
+          {/* Protected App Routes */}
+          <Route 
+            element={<ProtectedRoute><MainLayout /></ProtectedRoute>}
+          >
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/projects" element={<MyProjects />} />
+            <Route 
+              path="/ai-assistant" 
+              element={
+                <ProtectedRoute allowedRoles={['paid', 'admin']}>
+                  <AIAssistant />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
 
-        {/* Center Panel: Live Preview Canvas */}
-        <motion.section 
-          layout
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", damping: 20, stiffness: 150 }}
-          className="flex-1 glass rounded-[2.5rem] overflow-hidden relative will-change-transform hidden md:block"
-        >
-          <Suspense fallback={<div className="h-full w-full flex items-center justify-center bg-background-deep/50 animate-pulse">Initializing Synthesis Core...</div>}>
-            <PreviewCanvas selectedTemplate={selectedTemplate} />
-          </Suspense>
-          
-          {/* Floating Toggles */}
-          <div className="absolute top-8 right-8 z-20 flex gap-4">
-            <Button
-              variant="glass"
-              size="sm"
-              onClick={() => setIsMoodBoardOpen(true)}
-              className="rounded-full border-accent-gold/30 hover:border-accent-gold"
-              aria-label="Open Mood Boards"
-            >
-              <Palette size={16} className="text-accent-gold group-hover:rotate-12 transition-transform" />
-              Mood_Boards
-            </Button>
-
-            <Button
-              variant="glass"
-              size="sm"
-              onClick={() => setIsExplorerOpen(true)}
-              className="rounded-full border-primary-bright/30 hover:border-primary-accent"
-              aria-label="Launch Template Gallery"
-            >
-              <Layers size={16} className="text-primary-accent group-hover:rotate-12 transition-transform" />
-              Launch_Gallery
-            </Button>
-          </div>
-        </motion.section>
-
-        {/* Right Panel: Action Hub */}
-        <motion.section 
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="w-full md:w-1/4 glass-elevated rounded-[2.5rem] overflow-hidden flex flex-col will-change-transform flex-1 md:flex-none h-full bg-background-surface/30 backdrop-blur-xl border border-glass-border shadow-2xl"
-        >
-          <ActionHub />
-        </motion.section>
-      </main>
-
-      {/* Footer / Status Bar */}
-      <footer className="h-10 px-8 border-t border-glass-border bg-background-surface/80 flex items-center justify-between text-[10px] font-bold text-text-tertiary uppercase tracking-widest overflow-hidden">
-        <div className="flex gap-8">
-          <span className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse" aria-hidden="true" />
-            Kernel_Status: Operational
-          </span>
-          <span className="flex items-center gap-2 hidden sm:flex">
-            <Terminal size={12} className="text-primary-accent" />
-            Buffer_Link: Established
-          </span>
-        </div>
-        <div className="flex gap-8 items-center">
-          <span className="flex items-center gap-2 opacity-50 hidden lg:flex">
-            <History size={12} /> 
-            Sync_Stamp: 2026.02.24.23.42
-          </span>
-          <span className="text-primary-bright font-black">SYNTHESIS_CORE_v2.0.0</span>
-        </div>
-      </footer>
-
-      {/* Overlays with AnimatePresence */}
-      <AnimatePresence>
-        {isExplorerOpen && (
-          <Suspense fallback={null}>
-            <TemplateExplorer isOpen={isExplorerOpen} onClose={() => setIsExplorerOpen(false)} />
-          </Suspense>
-        )}
+          {/* Catch All */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </AnimatePresence>
-      
-      <AnimatePresence>
-        {isMoodBoardOpen && (
-          <Suspense fallback={null}>
-            <MoodBoard isOpen={isMoodBoardOpen} onClose={() => setIsMoodBoardOpen(false)} />
-          </Suspense>
-        )}
-      </AnimatePresence>
-    </div>
+    </BrowserRouter>
   );
 };
 
 export default App;
+

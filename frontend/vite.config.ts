@@ -23,12 +23,12 @@ export default defineConfig({
     }
   },
   server: {
-    headers: {
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://api.github.com;",
-      'X-Frame-Options': 'DENY',
-      'X-Content-Type-Options': 'nosniff',
-      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-      'Referrer-Policy': 'strict-origin-when-cross-origin'
-    }
+  headers: {
+    'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://api.github.com https://identitytoolkit.googleapis.com https://firestore.googleapis.com https://securetoken.googleapis.com;",
+    'X-Frame-Options': 'DENY',
+    'X-Content-Type-Options': 'nosniff',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+    'Referrer-Policy': 'strict-origin-when-cross-origin'
   }
+}
 })
