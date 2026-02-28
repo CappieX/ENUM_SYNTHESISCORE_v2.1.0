@@ -1,6 +1,7 @@
 import React, { lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import MainLayout from './layouts/MainLayout';
 import LandingPage from './pages/Landing/LandingPage';
 import SignIn from './pages/SignIn';
@@ -107,6 +108,7 @@ const App: React.FC = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AnimatePresence>
+      <Analytics />
     </BrowserRouter>
   );
 };
