@@ -43,7 +43,7 @@
   body {
     background-color: var(--color-background-deep);
     color: var(--color-text-primary);
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: var(--font-sans);
   }
 
